@@ -3,7 +3,7 @@ vec2 a_texcoord0    : TEXCOORD0;
 
 vec2 v_texcoord0    : TEXCOORD0;
 float v_title       : TITLE;
-vec3 v_position     : POSITION;
+vec3 v_position     : VPOSITION;
 vec3 v_sun          : SUN;
 
 vec3 v_sun_transmittance    : SUN_TRANSMITTANCE;

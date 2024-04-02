@@ -11,7 +11,7 @@ vec4          v_color0      : COLOR0;
 centroid vec2 v_texcoord0   : TEXCOORD0;
 vec2          v_lightmapUV  : TEXCOORD1;
 
-vec3 v_position     : POSITION;
+vec3 v_position     : VPOSITION;
 vec3 v_world        : WORLD;
 float v_shadow      : SHADOW;
 float v_darkness    : DARKNESS;
