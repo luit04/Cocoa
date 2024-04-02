@@ -1,0 +1,11 @@
+{
+    "biomes": {
+        "default": {
+            "fog_identifier": "shader:default",
+            "inherit_from_prior_fog": false,
+            "remove_all_prior_fog": true,
+            "water_surface_color": "#44AFF5",
+            "water_surface_transparency": 0.65
+        }
+    }
+}

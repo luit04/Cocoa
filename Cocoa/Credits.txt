@@ -1,0 +1,27 @@
+
+<ACES>
+Source
+    https://github.com/TheRealMJP/BakingLab/blob/master/BakingLab/ACES.hlsl
+License
+    MIT License
+    https://github.com/TheRealMJP/BakingLab?tab=MIT-1-ov-file#readme
+
+<BRDF>
+Source
+    https://learnopengl.com/PBR/Lighting
+License
+    CC BY-NC 4.0
+    https://github.com/JoeyDeVries/LearnOpenGL?tab=License-1-ov-file#readme
+
+
+<NASA SVS Deep Star Maps 2020>
+Source
+    https://svs.gsfc.nasa.gov/4851
+Credits
+    NASA/Goddard Space Flight Center Scientific Visualization Studio. Gaia DR2: ESA/Gaia/DPAC. Constellation figures based on those developed for the IAU by Alan MacRobert of Sky and Telescope magazine (Roger Sinnott and Rick Fienberg).
+
+    Animator
+        Ernie Wright (USRA)
+    Technical support
+        Laurence Schuler (ADNET Systems, Inc.)
+        Ian Jones (ADNET Systems, Inc.)

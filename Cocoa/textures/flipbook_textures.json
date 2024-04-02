@@ -1,0 +1,7 @@
+[
+    {
+        "atlas_tile": "shader.atlas",
+        "flipbook_texture": "textures/environment/overworld_cubemap/cubemap_0",
+        "ticks_per_frame": 20
+    }
+]

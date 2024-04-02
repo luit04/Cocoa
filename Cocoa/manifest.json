@@ -1,0 +1,18 @@
+{
+    "format_version": 2,
+    "header": {
+        "description": "Shader pack by @luit04\nPlace at the top.\ngithub.com/luit04",
+        "name": "Cocoa",
+        "uuid": "1398a70d-b464-45bf-8524-dac21766b766",
+        "version": [0, 0, 6],
+        "min_engine_version": [ 1, 20, 20 ]
+    },
+    "modules": [
+        {
+            "description": "Shader pack by @luit04\nPlace at the top.\ngithub.com/luit04",
+            "type": "resources",
+            "uuid": "b6dcff2c-13f8-4dc9-9dd9-d29e18db920a",
+            "version": [0, 0, 6]
+        }
+    ]
+}

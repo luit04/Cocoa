@@ -1,0 +1,10 @@
+{
+    "num_mip_levels": 0,
+    "padding": 8,
+    "resource_pack_name": "Cocoa",
+    "texture_data": {
+        "shader.atlas": {
+            "textures": "textures/environment/overworld_cubemap/cubemap_0"
+        }
+    }
+}
