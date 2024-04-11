@@ -1,5 +1,5 @@
 $input v_color0, v_texcoord0, v_lightmapUV
-$input v_position, v_world, v_shadow, v_darkness, v_torchlight, v_ao
+$input v_position, v_world, v_shadow, v_brightness, v_torchlight, v_ao
 $input v_sun, v_day, v_water, v_sun_illuminance, v_moon_illuminance
 $input v_ambient_zenith, v_ambient_horizon, v_ambient_average, v_time, v_ev
 $input v_fog_transmittance, v_fog_scattering
@@ -105,7 +105,7 @@ vec3 getDither( highp ivec2 atlas_size, highp vec2 coord ) {
 
     highp ivec2 texel = ivec2(coord) % 256 + ivec2(1792, 0);
 
-    return readTexel(atlas_size, texel).rgb * 16.0 - 8.0;
+    return readTexel(atlas_size, texel).rgb * 8.0 - 4.0;
 }
 
 void main() {
@@ -148,12 +148,20 @@ void main() {
         highp ivec2 atlas_size = textureSize(s_MatTexture, 0);
 
         highp float shadow  = exp2(8.0 * v_shadow - 8.0) * v_shadow;
-        highp vec3 dark     = vec3(0.02, 0.02, 0.02) / v_ev;
+        highp vec3 dark     = F_GRAY_PI / v_ev;
+
+        highp float brightness = exp2(8.0 * v_brightness - 8.0);
 
         highp vec3 sunlight     = BLACK;
         highp vec3 moonlight    = BLACK;
 
-        highp vec3 torchlight = pow4(v_torchlight) * vec3(1.0, 0.3, 0.04);
+        highp vec3 torchlight = exp2(12.0 * v_torchlight - 12.0) * vec3(1.0, 0.3, 0.04);
+
+        /*
+            High exposure is ideal for spaces where the sky is completely invisible.
+            (a completely enclosed space or a very deep cave)
+        */
+        torchlight = mix(torchlight / v_ev * MAX_EV, torchlight, brightness);
 
         #ifdef TRANSPARENT
             if ( v_water > 0.999999 ) {
@@ -169,7 +177,7 @@ void main() {
 
                 highp vec3 ambient = getSky(atlas_size, reflect(-V, N), v_sun);
 
-                ambient = mix(dark, ambient, v_darkness);
+                ambient = mix(dark, ambient, brightness);
 
                 /* Calculate sun and moon lighting */ {
                     
@@ -193,7 +201,11 @@ void main() {
                 highp vec3 HDR = 
                     shadow * (sunlight + moonlight) + ambient;
 
-                HDR = HDR * v_fog_transmittance + v_fog_scattering;
+                /*
+                    Ideally, there is no fog in a space where the sky is completely invisible.
+                    (a completely enclosed space or a very deep cave)
+                */
+                HDR = mix(HDR, HDR * v_fog_transmittance + v_fog_scattering, brightness);
 
                 highp vec3 LDR = ACESFitted(HDR * v_ev);
 
@@ -231,13 +243,17 @@ void main() {
             
         }
 
-        highp vec3 ambient = albedo * mix(dark, v_ambient_average, v_darkness) * v_ao;
+        highp vec3 ambient = albedo * mix(dark, v_ambient_average, brightness) * v_ao;
 
         torchlight *= albedo;
 
         highp vec3 HDR = shadow * (sunlight + moonlight) + ambient + torchlight;
 
-        HDR = HDR * v_fog_transmittance + v_fog_scattering;
+        /*
+            Ideally, there is no fog in a space where the sky is completely invisible.
+            (a completely enclosed space or a very deep cave)
+        */
+        HDR = mix(HDR, HDR * v_fog_transmittance + v_fog_scattering, brightness);
 
         highp vec3 LDR = ACESFitted(HDR * v_ev);
 

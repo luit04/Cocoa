@@ -3,7 +3,7 @@ $input a_color0, a_position, a_texcoord0, a_texcoord1
     $input i_data0, i_data1, i_data2
 #endif
 $output v_color0, v_texcoord0, v_lightmapUV
-$output v_position, v_world, v_shadow, v_darkness, v_torchlight, v_ao
+$output v_position, v_world, v_shadow, v_brightness, v_torchlight, v_ao
 $output v_sun, v_day, v_water, v_sun_illuminance, v_moon_illuminance
 $output v_ambient_zenith, v_ambient_horizon, v_ambient_average, v_time, v_ev
 $output v_fog_transmittance, v_fog_scattering
@@ -119,12 +119,16 @@ void main() {
     v_position      = a_position;
     v_world         = world;
     v_shadow        = linearstep(F_1_32, F_15_16, max(v_lightmapUV.y, F_1_32));
-    v_darkness      = sqrt(v_lightmapUV.y * F_16_15);
+    v_brightness      = sqrt(v_lightmapUV.y * F_16_15);
     v_torchlight    = v_lightmapUV.x * F_16_15;
 
     highp ivec2 atlas_size = textureSize(s_MatTexture, 0);
 
-    v_sun   = getSunVector(FogAndDistanceControl.x, ViewPositionAndTime.w);
+    /*
+        It prevents time from changing quickly due to the render distance that changes when you open the UI
+        FogAndDistanceControl.x = fog start (fixed) / FogAndDistanceControl.z
+    */
+    v_sun   = getSunVector(FogAndDistanceControl.x * FogAndDistanceControl.z * 0.02, ViewPositionAndTime.w);
     v_day   = v_sun.y * 0.5 + 0.5;
     v_water = float(v_color0.a < 0.75 && v_color0.a > 0.25);
 

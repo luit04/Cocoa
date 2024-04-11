@@ -30,10 +30,13 @@
     #define GAMMA       2.2
     #define F_1_GAMMA   0.454545454545455
 
+    #define MAX_EV      13.0
+
     #define BLACK       vec3(0.00, 0.00, 0.00)
     #define GRAY        vec3(0.18, 0.18, 0.18)
     #define WHITE       vec3(1.00, 1.00, 1.00)
 
+    #define F_GRAY_PI   vec3(0.057295779513082, 0.057295779513082, 0.057295779513082)
 
 highp float pow2( highp float x ) {
     return x * x;
@@ -79,36 +82,36 @@ highp float linearstep( highp float a, highp float b, highp float x ) {
 // Key Functions
 
     float getEV( float sun_y ) {
-        return mix(13.0, 1.0, smoothstep(-0.1, 0.1, sun_y));
+        return mix(MAX_EV, 1.0, smoothstep(-0.1, 0.1, sun_y));
     }
 
     // Sun
         /*
-            fog_start : FogAndDistanceControl.x
+            fog_start : FogAndDistanceControl.x * FogAndDistanceControl.z * 0.02
 
-                day         : 0.020
-                noon        : 0.125
-                sunset      : 0.250
-                night       : 0.270
-                midnight    : 0.375
-                sunrise     : 0.480
+                day         : 0.04
+                noon        : 0.25
+                sunset      : 0.50
+                night       : 0.54
+                midnight    : 0.75
+                sunrise     : 0.96
                 
-                -> fog_start * 2.0 * PI2 
+                -> fog_start * TWO_PI 
                 --------------------
-                x1          : 0.600
+                default     : 1.20
 
             time : ViewPositionAndTime.w
 
             * in vertex shader *
         */
-        highp float getDayTimeRadian( highp float fog_start, highp float time ) {
-            if ( fog_start < 0.55 ) return fog_start * FOUR_PI;
+        highp float getDayTimeRadian( highp float fog_start_fixed, highp float time ) {
+            if ( fog_start_fixed < 1.1 ) return fog_start_fixed * TWO_PI;
             return time * TWO_PI * F_1_1200;
         }
 
-        highp vec3 getSunVector( highp float fog_start, highp float time ) {
+        highp vec3 getSunVector( highp float fog_start_fixed, highp float time ) {
             
-            highp float angle = getDayTimeRadian(fog_start, time);
+            highp float angle = getDayTimeRadian(fog_start_fixed, time);
 
             highp vec2 sc = vec2( sin(angle), cos(angle) );
             return vec3(sc.y, sc.x * 0.8, sc.x * 0.6);

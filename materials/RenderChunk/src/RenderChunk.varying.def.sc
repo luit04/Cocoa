@@ -14,7 +14,7 @@ vec2          v_lightmapUV  : TEXCOORD1;
 vec3 v_position     : VPOSITION;
 vec3 v_world        : WORLD;
 float v_shadow      : SHADOW;
-float v_darkness    : DARKNESS;
+float v_brightness  : BRIGHTNESS;
 float v_torchlight  : TORCHLIGHT;
 float v_ao          : AO;
 

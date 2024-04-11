@@ -19,7 +19,7 @@ vec3 getDither( highp vec2 coord ) {
 
     coord = fract(coord * F_1_256) * F_1_16 + vec2(F_7_16, 0.0);
 
-    return texture2D(s_MatTexture, coord).rgb * 32.0 - 16.0;
+    return texture2D(s_MatTexture, coord).rgb * 16.0 - 8.0;
 }
 
 #include <Sky.sh>
