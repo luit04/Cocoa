@@ -27,7 +27,7 @@
     // Rayleigh absorption is 0
 
     #define MIE_SCATTERING_COEFFICIENT      vec3(3.996, 3.996, 3.996)
-    #define MIE_ABSROPTION_COEFFICIENT      vec3(4.400, 4.400, 4.400)
+    #define MIE_ABSORPTION_COEFFICIENT      vec3(4.400, 4.400, 4.400)
 
     // Ozone scattering is 0
     #define OZONE_ABSORPTION_COEFFICIENT    vec3(0.650, 1.881, 0.085)
@@ -143,7 +143,7 @@ void getCoefficients(   highp vec3 x,
     
     total = 
         rayleigh_scattering +
-        mie_scattering + MIE_ABSROPTION_COEFFICIENT * mie_density +
+        mie_scattering + MIE_ABSORPTION_COEFFICIENT * mie_density +
         OZONE_ABSORPTION_COEFFICIENT * ozone_density;
 }
 
@@ -227,7 +227,7 @@ highp vec2 getLUT_UV( highp vec3 x, highp vec3 sun ) {
             
             total = 
                 rayleigh_scattering +
-                mie_scattering + MIE_ABSROPTION_COEFFICIENT * mie_density +
+                mie_scattering + MIE_ABSORPTION_COEFFICIENT * mie_density +
                 OZONE_ABSORPTION_COEFFICIENT * ozone_density;
         }
 
